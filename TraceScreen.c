@@ -101,9 +101,9 @@ bool TraceScreen_forkTracer(TraceScreen* this) {
       int ok = fcntl(this->fdpair[1], F_SETFL, O_NONBLOCK);
       if (ok != -1) {
          xSnprintf(buffer, sizeof(buffer), "%d", this->super.process->pid);
-         execlp("strace", "strace", "-s", "512", "-p", buffer, NULL);
+         execlp("dtruss", "dtruss", "-p", buffer, NULL);
       }
-      const char* message = "Could not execute 'strace'. Please make sure it is available in your $PATH.";
+      const char* message = "Could not execute 'dtruss'. Please make sure it is available in your $PATH.";
       ssize_t written = write(this->fdpair[1], message, strlen(message));
       (void) written;
       exit(1);
